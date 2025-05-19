@@ -34,7 +34,7 @@ return new class extends Migration
             $table->foreign('warga_id')->references('id')->on('warga')->onDelete('cascade');
         });
 
-        Schema::create('bayar', function (Blueprint $table) {
+        Schema::create('terima', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('warga_id');
             $table->enum('jenis', ['zakat', 'infaq', 'sedekah']); // bisa disesuaikan
@@ -45,7 +45,7 @@ return new class extends Migration
 
             $table->foreign('warga_id')->references('id')->on('warga')->onDelete('cascade');
         });
-        
+
         Schema::create('kategori', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
