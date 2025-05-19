@@ -28,4 +28,5 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/bayar', function(){
     return Inertia::render('bayar');
     })->middleware(['auth'])->name('bayar');
+
 require __DIR__.'/auth.php';
