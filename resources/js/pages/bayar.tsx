@@ -1,12 +1,12 @@
 import AuthenticatedLayout from "@/layouts/authenticated-layout";
 import { Head } from "@inertiajs/react";
 
-export default function Dashboard() {
+export default function Bayar() {
     return (
         <AuthenticatedLayout
             header="Dashboard"
         >
-            <Head title="Dashboard Zakat" />
+            <Head title="Dashboard bayar" />
 
             <div className="flex flex-1 flex-col gap-4 h-full">
                 <div className="grid auto-rows-min gap-4 md:grid-cols-3">
