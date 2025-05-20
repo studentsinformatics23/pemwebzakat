@@ -42,8 +42,8 @@ const data = {
             icon: Home,
         },
         {
-            title: "Penduduk",
-            url: "/penduduk",
+            title: "Warga",
+            url: "/warga",
             icon: UsersIcon,
             isActive: true,
             //   items: [
