@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BayarZakat;
 use App\Models\Kategori;
+use App\Models\KategoriBayarZakat;
 use App\Models\Warga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -15,8 +17,9 @@ class WargaController extends Controller
      */
     public function index()
     {
-        $warga = Warga::with("kategori")->orderBy('created_at', 'desc')->get();
-        $kategori = Kategori::get();
+        $warga = Warga::with("kategoriBayarZakat")->orderBy('created_at', 'desc')->get();
+
+        $kategori = KategoriBayarZakat::get();
         return Inertia::render("warga", ["warga" => $warga, 'kategori' => $kategori]);
     }
 
@@ -41,6 +44,14 @@ class WargaController extends Controller
             'jumlah_tanggungan' => (int) $request["jumlah_tanggungan"]
         ]);
 
+        if ($request["kategori_id"] == "1") {
+            BayarZakat::create([
+                "nama_KK" => $request["nama"],
+                "nomor_KK" => $request["keluarga_id"],
+                "jumlah_tanggungan" => (int) $request["jumlah_tanggungan"],
+            ]);
+        }
+
         return back()->with('success', 'Data berhasil ditambahkan');
     }
 
@@ -49,7 +60,13 @@ class WargaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = BayarZakat::where('nomor_KK', $id)->first();
+
+        if (!$data) {
+            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+        }
+
+        return response()->json($data);
     }
 
     /**
@@ -83,6 +100,10 @@ class WargaController extends Controller
     public function destroy(string $id)
     {
         $warga = Warga::findOrFail($id);
+        $bayarZakat = BayarZakat::where("nomor_KK", $warga->keluarga_id)->first();
+        if ($bayarZakat) {
+            $bayarZakat->delete();
+        }
         $warga->delete();
 
         return back()->with('success', 'Data berhasil dihapus');
