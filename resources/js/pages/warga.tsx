@@ -1227,7 +1227,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                 </div>
 
                                 {/* Receipt History */}
-                                <div className="space-y-2">
+                                {/* <div className="space-y-2">
                                     <h3 className="text-lg font-medium">
                                         Receipt History
                                     </h3>
@@ -1297,7 +1297,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                             No receipt history available.
                                         </p>
                                     )}
-                                </div>
+                                </div> */}
                             </div>
                         )}
                     </SheetContent>
