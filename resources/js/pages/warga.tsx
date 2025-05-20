@@ -48,16 +48,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { ZakatRecord } from "@/lib/types";
 
-// Mock data for payments and receipts
 const paymentHistory = [
     {
         id: 1,
@@ -126,7 +118,7 @@ interface Warga {
     keluarga_id: string;
     created_at: string;
     updated_at: string;
-    kategori: Kategori;
+    kategori_bayar_zakat: Kategori;
 }
 
 interface Muzakki {
@@ -147,6 +139,8 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [itemsPerPage, setItemsPerPage] = useState(5);
+
+    const [infoBayarZakar, setInfoBayarZakat] = useState<any | null>();
 
     // create warga
     const [selectedKategoriForCreate, setSelectedKategoriForCreate] =
@@ -197,7 +191,8 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
     };
 
     // View citizen details
-    const handleViewDetails = (citizen: Warga) => {
+    const handleViewDetails = async (citizen: Warga) => {
+        await getBayarZakarByNomerKK(citizen.keluarga_id);
         setSelectedCitizen(citizen);
         setIsDetailsOpen(true);
     };
@@ -391,19 +386,26 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
         });
     };
 
+    // get data bayar zakat
+    const getBayarZakarByNomerKK = async (nomerKK: string) => {
+        const response = await fetch(`/warga/${nomerKK}`);
+        const data = await response.json();
+        setInfoBayarZakat(data);
+    };
+
     return (
         <>
             <AuthenticatedLayout header="Dashboard">
                 <Head title="Dashboard" />
-                <div className="min-h-screen mx-0 md:flex md:mx-6">
+                <div className="min-h-screen md:flex">
                     <div className="mx-auto md:flex-1 md:max-w-full max-w-96 md:mx-0">
-                        <header className="flex items-center h-16 gap-4 border-b bg-background">
+                        <header className="flex items-center pb-6 bg-background">
                             <h1 className="text-2xl font-bold md:text-3xl">
                                 Manajemen Kelola Warga
                             </h1>
                         </header>
 
-                        <main className="py-6">
+                        <main className="p-6 bg-white rounded-md border-[0.3px]">
                             <div className="flex flex-col gap-4 mb-6 sm:flex-row sm:items-center sm:justify-between">
                                 <div className="flex items-center flex-1 gap-4">
                                     <div className="flex-1 sm:max-w-sm">
@@ -458,10 +460,10 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                     <DialogContent>
                                         <DialogHeader>
                                             <DialogTitle>
-                                                Tambah Muzakki Baru
+                                                Tambah Warga Baru
                                             </DialogTitle>
                                             <DialogDescription>
-                                                Masukkan rincian muzakki baru di
+                                                Masukkan rincian warga baru di
                                                 bawah ini.
                                             </DialogDescription>
                                         </DialogHeader>
@@ -605,7 +607,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                             <Button
                                                 onClick={handleCreateMuzakki}
                                             >
-                                                Save Citizen
+                                                Simpan Data
                                             </Button>
                                         </DialogFooter>
                                     </DialogContent>
@@ -624,7 +626,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                                 <TableHead>
                                                     Tanggungan
                                                 </TableHead>
-                                                <TableHead>Kategori</TableHead>
+                                                {/* <TableHead>Kategori</TableHead> */}
                                                 <TableHead className="hidden md:table-cell">
                                                     Ditambahkan
                                                 </TableHead>
@@ -650,7 +652,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                                                 citizen.jumlah_tanggungan
                                                             }
                                                         </TableCell>
-                                                        <TableCell>
+                                                        {/* <TableCell>
                                                             <Badge
                                                                 variant="outline"
                                                                 className={getBadgeClass(
@@ -665,7 +667,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                                                         .nama
                                                                 }
                                                             </Badge>
-                                                        </TableCell>
+                                                        </TableCell> */}
                                                         <TableCell className="hidden md:table-cell">
                                                             {format(
                                                                 citizen.created_at,
@@ -853,12 +855,12 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                                                                             }
                                                                                         />
                                                                                     </div>
-                                                                                    <div className="grid gap-2">
+                                                                                    {/* <div className="grid gap-2">
                                                                                         <Label htmlFor="edit-category">
                                                                                             Kategori{" "}
                                                                                             {
                                                                                                 selectedCitizen
-                                                                                                    .kategori
+                                                                                                    .kategori_bayar_zakat
                                                                                                     .nama
                                                                                             }
                                                                                         </Label>
@@ -895,7 +897,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                                                                                 )}
                                                                                             </SelectContent>
                                                                                         </Select>
-                                                                                    </div>
+                                                                                    </div> */}
                                                                                 </div>
                                                                             </div>
                                                                         )}
@@ -1104,9 +1106,9 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                 <Sheet open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
                     <SheetContent className="sm:max-w-md">
                         <SheetHeader>
-                            <SheetTitle>Citizen Details</SheetTitle>
+                            <SheetTitle>Informasi Detail</SheetTitle>
                             <SheetDescription>
-                                View detailed information about this citizen.
+                                Lihat informasi terperinci tentang warga ini.
                             </SheetDescription>
                         </SheetHeader>
 
@@ -1114,57 +1116,40 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                             <div className="mt-6 space-y-6">
                                 <div className="space-y-2">
                                     <h3 className="text-lg font-medium">
-                                        Personal Information
+                                        Informasi Keluarga
                                     </h3>
                                     <div className="grid grid-cols-2 gap-2 text-sm">
                                         <div className="font-medium">
-                                            Full Name:
+                                            Nama Ketua Keluarga:
                                         </div>
                                         <div>{selectedCitizen.nama}</div>
                                         <div className="font-medium">
-                                            Family ID:
+                                            Nomer Kartu Keluarga
                                         </div>
                                         <div>{selectedCitizen.keluarga_id}</div>
                                         <div className="font-medium">
-                                            Category:
+                                            Jumlah Tanggungan
                                         </div>
                                         <div>
-                                            <Badge
-                                                variant="outline"
-                                                className={
-                                                    selectedCitizen.kategori
-                                                        .nama === "Priority"
-                                                        ? "bg-amber-100 text-amber-800"
-                                                        : selectedCitizen
-                                                              .kategori.nama ===
-                                                          "Senior"
-                                                        ? "bg-blue-100 text-blue-800"
-                                                        : selectedCitizen
-                                                              .kategori.nama ===
-                                                          "Youth"
-                                                        ? "bg-green-100 text-green-800"
-                                                        : "bg-gray-100 text-gray-800"
-                                                }
-                                            >
-                                                {/* {selectedCitizen.category} */}
-                                            </Badge>
+                                            {selectedCitizen.jumlah_tanggungan}
                                         </div>
+
                                         <div className="font-medium">
                                             Created At:
                                         </div>
                                         <div>
-                                            {/* {format(
-                                                selectedCitizen.createdAt,
+                                            {format(
+                                                selectedCitizen.created_at,
                                                 "PPP"
-                                            )} */}
+                                            )}
                                         </div>
                                     </div>
                                     <div className="pt-2 text-sm">
                                         <div className="font-medium">
-                                            Description:
+                                            Deskripsi:
                                         </div>
                                         <div className="mt-1">
-                                            {/* {selectedCitizen.description} */}
+                                            {selectedCitizen.deskripsi}
                                         </div>
                                     </div>
                                 </div>
@@ -1172,22 +1157,23 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                 {/* Payment History */}
                                 <div className="space-y-2">
                                     <h3 className="text-lg font-medium">
-                                        Payment History
+                                        Riwayat Pembayaran Zakat
                                     </h3>
-                                    {getCitizenPayments(selectedCitizen.id)
-                                        .length > 0 ? (
+                                    {infoBayarZakar?.nomor_KK ? (
                                         <div className="border rounded-md">
                                             <Table>
                                                 <TableHeader>
                                                     <TableRow>
                                                         <TableHead>
-                                                            Type
+                                                            Jenis Bayar
                                                         </TableHead>
                                                         <TableHead>
-                                                            Amount
+                                                            Total Pembayaran
+                                                            (Rp.)
                                                         </TableHead>
                                                         <TableHead>
-                                                            Period
+                                                            Total Pembayaran
+                                                            (Kg.)
                                                         </TableHead>
                                                         <TableHead>
                                                             Status
@@ -1195,55 +1181,53 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                                     </TableRow>
                                                 </TableHeader>
                                                 <TableBody>
-                                                    {getCitizenPayments(
-                                                        selectedCitizen.id
-                                                    ).map((payment) => (
-                                                        <TableRow
-                                                            key={payment.id}
-                                                        >
-                                                            <TableCell>
-                                                                {payment.type}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                {new Intl.NumberFormat(
-                                                                    "id-ID",
-                                                                    {
-                                                                        style: "currency",
-                                                                        currency:
-                                                                            "IDR",
-                                                                        minimumFractionDigits: 0,
-                                                                    }
-                                                                ).format(
-                                                                    payment.amount
-                                                                )}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                {payment.period}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                <Badge
-                                                                    variant="outline"
-                                                                    className="text-green-800 bg-green-100"
-                                                                >
-                                                                    {
-                                                                        payment.status
-                                                                    }
-                                                                </Badge>
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    ))}
+                                                    <TableRow>
+                                                        <TableCell>
+                                                            {
+                                                                infoBayarZakar.jenis_bayar
+                                                            }
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {new Intl.NumberFormat(
+                                                                "id-ID",
+                                                                {
+                                                                    style: "currency",
+                                                                    currency:
+                                                                        "IDR",
+                                                                    minimumFractionDigits: 0,
+                                                                }
+                                                            ).format(
+                                                                infoBayarZakar.bayar_uang
+                                                            )}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {
+                                                                infoBayarZakar.bayar_beras
+                                                            }
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Badge
+                                                                variant="outline"
+                                                                className="text-green-800 bg-green-100"
+                                                            >
+                                                                {
+                                                                    infoBayarZakar.status
+                                                                }
+                                                            </Badge>
+                                                        </TableCell>
+                                                    </TableRow>
                                                 </TableBody>
                                             </Table>
                                         </div>
                                     ) : (
                                         <p className="text-sm text-muted-foreground">
-                                            No payment history available.
+                                            Tidak wajib bayar pajak.
                                         </p>
                                     )}
                                 </div>
 
                                 {/* Receipt History */}
-                                <div className="space-y-2">
+                                {/* <div className="space-y-2">
                                     <h3 className="text-lg font-medium">
                                         Receipt History
                                     </h3>
@@ -1313,7 +1297,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                             No receipt history available.
                                         </p>
                                     )}
-                                </div>
+                                </div> */}
                             </div>
                         )}
                     </SheetContent>

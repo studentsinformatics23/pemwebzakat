@@ -24,7 +24,7 @@ class WargaSeeder extends Seeder
                 'nama' => $faker->name, // nama asli acak
                 'jumlah_tanggungan' => rand(0, 5),
                 'deskripsi' => $faker->sentence(),
-                'kategori_id' => $faker->numberBetween(1, 8), // random dari 1 sampai 8
+                'kategori_id' => $faker->numberBetween(1, 2), // random dari 1 sampai 8
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

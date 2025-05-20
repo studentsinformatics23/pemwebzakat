@@ -23,4 +23,8 @@ class Warga extends Model
     {
         return $this->belongsTo(Kategori::class, 'kategori_id');
     }
+    public function kategoriBayarZakat()
+    {
+        return $this->belongsTo(KategoriBayarZakat::class, 'kategori_id');
+    }
 }
