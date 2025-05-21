@@ -6,16 +6,22 @@ use App\Models\BayarZakat;
 use App\Models\DistribusiZakat;
 use App\Models\DistribusiZakatLainnya;
 use App\Models\Warga;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
-class DashboardController extends Controller
+class LaporanZakatController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        //
+    }
+
+    public function exportPdf()
+    {
+
         $konversiBerasKeUang = 15000;
 
         $zakatLunas = BayarZakat::where('status', 'lunas')->get();
@@ -78,10 +84,27 @@ class DashboardController extends Controller
             ->count('warga_id');
 
         $jumlahPenerimaLainnya = DistribusiZakatLainnya::where('status', 'terkirim')->count();
+        // Ambil data summary
+        $data = [
+            "totalZakatBeras" => $totalBeras,
+            "totalZakatUang" => $totalUang,
+            "totalDistribusiZakatBeras" => $totalBerasDistribusi,
+            'totalDistribusiZakatUang' => $totalUangDistribusi,
+            "totalUangDistribusiLainnya" => $totalUangDistribusiLainnya,
+            'totalBerasDistribusiLainnya' => $totalBerasDistribusiLainnya,
+            "wargaWajibBayar" => count($wargaWajib),
+            "sudahBayar" => $sudahBayar,
+            "belumBayar" => $belumBayar,
+            "jumlahWargaTerdistribusi" => $jumlahWargaTerdistribusi,
+            "jumlahPenerimaLainnya" => $jumlahPenerimaLainnya
+        ];
 
-        // dd($jumlahWargaTerdistribusi);
+        // Render PDF
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('pdf.laporan-zakat', ['data' => $data]);
 
-        return Inertia::render("dashboard", ["totalZakatBeras" => $totalBeras, "totalZakatUang" => $totalUang, "totalDistribusiZakatBeras" => $totalBerasDistribusi, 'totalDistribusiZakatUang' => $totalUangDistribusi, "totalUangDistribusiLainnya" => $totalUangDistribusiLainnya, 'totalBerasDistribusiLainnya' => $totalBerasDistribusiLainnya, "wargaWajibBayar" => count($wargaWajib), "sudahBayar" => $sudahBayar, "belumBayar" => $belumBayar, "jumlahWargaTerdistribusi" => $jumlahWargaTerdistribusi, "jumlahPenerimaLainnya" => $jumlahPenerimaLainnya]);
+        // Kembalikan file PDF
+        return $pdf->download('laporan_zakat.pdf');
     }
 
     /**

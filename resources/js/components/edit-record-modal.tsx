@@ -36,7 +36,7 @@ export default function EditRecordModal({
     onSave,
 }: EditRecordModalProps) {
     const BERAS = 2.5;
-    const UANG = 30000;
+    const UANG = 15000 * BERAS; // 15000 harga per kilo
 
     const [editedRecord, setEditedRecord] = useState<ZakatRecord>({
         ...record,
@@ -57,13 +57,13 @@ export default function EditRecordModal({
             if (value === "beras") {
                 setEditedRecord((prev) => ({
                     ...prev,
-                    bayar_beras: prev.jumlah_tanggungan * BERAS || 0,
+                    bayar_beras: (prev.jumlah_tanggungan + 1) * BERAS || 0,
                     bayar_uang: 0,
                 }));
             } else {
                 setEditedRecord((prev) => ({
                     ...prev,
-                    bayar_uang: prev.jumlah_tanggungan * UANG || 0,
+                    bayar_uang: (prev.jumlah_tanggungan + 1) * UANG || 0,
                     bayar_beras: 0,
                 }));
             }

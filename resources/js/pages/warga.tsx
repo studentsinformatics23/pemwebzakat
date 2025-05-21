@@ -436,7 +436,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
         <>
             <AuthenticatedLayout header="Dashboard">
                 <Head title="Dashboard" />
-                <div className="min-h-screen md:flex">
+                <div className="min-h-screen pt-6 md:flex ">
                     <div className="mx-auto md:flex-1 md:max-w-full max-w-96 md:mx-0">
                         <header className="flex items-center pb-6 bg-background">
                             <h1 className="text-2xl font-bold md:text-3xl">

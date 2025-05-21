@@ -4,6 +4,7 @@ use App\Http\Controllers\BayarZakatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DistribusiZakatController;
 use App\Http\Controllers\DistribusiZakatLainnyaController;
+use App\Http\Controllers\LaporanZakatController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WargaController;
 use GuzzleHttp\Psr7\Response;
@@ -48,6 +49,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/distribusi-lainnya", [DistribusiZakatLainnyaController::class, "store"])->name("distribusi-lainnya.create");
     Route::delete("/distribusi-lainnya/{id}", [DistribusiZakatLainnyaController::class, "destroy"])->name("distribusi-lainnya.create");
     // Distribusi zakat lainnya end
+
+    // laporan zakat
+    Route::get('/laporan-zakat/export-pdf', [LaporanZakatController::class, 'exportPdf'])->name('laporan.zakat.pdf');
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
