@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('nama');
             $table->integer("jumlah_tanggungan")->nullable();
             $table->text('deskripsi')->nullable();
-            $table->uuid('kategori_id')->nullable();
+            $table->unsignedBigInteger('kategori_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('kategori_id')->references('id')->on('kategoris')->onDelete('set null');
+            $table->foreign('kategori_id')->references('id')->on('kategori_bayar_zakats')->onDelete('set null');
         });
     }
 
