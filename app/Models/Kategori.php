@@ -18,4 +18,9 @@ class Kategori extends Model
     {
         return $this->hasMany(DistribusiZakat::class);
     }
+
+    public function distribusiZakatLainnya()
+    {
+        return $this->hasMany(DistribusiZakatLainnya::class, 'kategori_id');
+    }
 }

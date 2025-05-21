@@ -3,6 +3,7 @@
 use App\Http\Controllers\BayarZakatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DistribusiZakatController;
+use App\Http\Controllers\DistribusiZakatLainnyaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WargaController;
 use GuzzleHttp\Psr7\Response;
@@ -41,6 +42,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/mustahik", [DistribusiZakatController::class, "mustahik"])->name("mustahik");
     Route::patch("/distribusi/{id}", [DistribusiZakatController::class, "update"])->name('distribusi.update');
     // Distribusi zakat end
+
+    // Distribusi zakat lainnya start
+    Route::get("/distribusi-lainnya", [DistribusiZakatLainnyaController::class, "index"])->name("distribusi-lainnya");
+    Route::post("/distribusi-lainnya", [DistribusiZakatLainnyaController::class, "store"])->name("distribusi-lainnya.create");
+    Route::delete("/distribusi-lainnya/{id}", [DistribusiZakatLainnyaController::class, "destroy"])->name("distribusi-lainnya.create");
+    // Distribusi zakat lainnya end
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
