@@ -234,10 +234,9 @@ export function AddDistributionDialog({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
-                    <DialogTitle>Add New Distribution</DialogTitle>
+                    <DialogTitle>Tambahkan Distribusi Baru</DialogTitle>
                     <DialogDescription>
-                        Fill in the details for the new zakat distribution
-                        record.
+                        Isi data untuk pencatatan penyaluran penerima zakat baru lainnya.
                     </DialogDescription>
                 </DialogHeader>
 

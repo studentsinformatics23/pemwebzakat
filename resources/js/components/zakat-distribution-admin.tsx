@@ -323,7 +323,7 @@ export function ZakatDistributionAdmin(props: {
                         onClick={() => setIsDialogOpen(true)}
                         className="self-end md:self-auto"
                     >
-                        <Plus className="w-4 h-4 mr-2" /> Add Distribution
+                        <Plus className="w-4 h-4 mr-2" /> Tambah Penerima
                     </Button>
                 </div>
             </CardHeader>

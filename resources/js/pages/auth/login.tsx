@@ -43,16 +43,17 @@ export default function Login({
             <Head title="Log in" />
 
             <form onSubmit={submit}>
-                <Card className="mx-auto max-w-sm">
+                <Card className="max-w-sm mx-auto">
                     <CardHeader>
                         <CardTitle className="text-2xl">Login</CardTitle>
                         <CardDescription>
-                            Enter your email below to login to your account
+                            Masukkan email Anda di bawah ini untuk masuk ke akun
+                            Anda
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
                         {status && (
-                            <div className="mb-4 font-medium text-sm text-green-600">
+                            <div className="mb-4 text-sm font-medium text-green-600">
                                 {status}
                             </div>
                         )}
@@ -77,9 +78,9 @@ export default function Login({
                                     <Label htmlFor="password">Password</Label>
                                     <Link
                                         href={route("password.request")}
-                                        className="ml-auto inline-block text-sm underline"
+                                        className="inline-block ml-auto text-sm underline"
                                     >
-                                        Forgot your password?
+                                        Lupa Password?
                                     </Link>
                                 </div>
                                 <Input
@@ -97,8 +98,8 @@ export default function Login({
                                 Login
                             </Button>
                         </div>
-                        <div className="mt-4 text-center text-sm">
-                            Don&apos;t have an account?{" "}
+                        <div className="mt-4 text-sm text-center">
+                            Tidak punya akun
                             <Link href="/register" className="underline">
                                 Sign up
                             </Link>

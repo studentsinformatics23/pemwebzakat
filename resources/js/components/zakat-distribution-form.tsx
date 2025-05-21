@@ -85,8 +85,40 @@ export default function DistribusiZakatForm({
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSubmit(formData);
-        console.log(formData);
-        // Remove non-primitive fields before sending
+
+        const errors: string[] = [];
+
+        if (!formData.kategori_id) {
+            errors.push("Kategori penerima harus dipilih.");
+        }
+
+        if (!formData.jenis_bantuan) {
+            errors.push("Jenis bantuan harus dipilih.");
+        }
+
+        if (
+            formData.jenis_bantuan === "beras" &&
+            (!formData.jumlah_beras || formData.jumlah_beras <= 0)
+        ) {
+            errors.push("Jumlah beras harus diisi dengan benar.");
+        }
+
+        if (
+            formData.jenis_bantuan === "uang" &&
+            (!formData.jumlah_uang || formData.jumlah_uang <= 0)
+        ) {
+            errors.push("Jumlah uang harus diisi dengan benar.");
+        }
+
+        if (!formData.status) {
+            errors.push("Status distribusi harus dipilih.");
+        }
+
+        if (errors.length > 0) {
+            toast.error(errors.join("\n"), { id: "form-validation" });
+            return;
+        }
+
         const { warga, kategori, ...payload } = formData;
         router.patch(
             `/distribusi/${formData.id}`,
