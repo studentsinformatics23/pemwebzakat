@@ -42,12 +42,12 @@ Sebelum memulai, pastikan Anda telah menginstal perangkat berikut:
 
 Untuk memulai server pengembangan Laravel, jalankan perintah berikut:
 
-```json
+```
 php artisan serve
 ```
 
 Dan jalankan node servernya juga
-```json
+```
 npm run dev
 ```
 Akses aplikasi melalui browser di `http://localhost:8000` (secara default).
