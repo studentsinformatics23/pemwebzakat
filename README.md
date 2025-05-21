@@ -20,7 +20,7 @@ Sebelum memulai, pastikan Anda telah menginstal perangkat berikut:
 ## Instalasi
 
 1. Kloning repositori:  
-   `git clone https://github.com/mahmudz/laravel-shadcn-app-panel.git`
+   `git clone https://github.com/studentsinformatics23/pemwebzakat.git`
 2. Masuk ke direktori proyek:  
    `cd [nama-direktori-proyek]`
 3. Install dependensi PHP:  
