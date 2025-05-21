@@ -178,11 +178,11 @@ export function ZakatDistributionAdmin(props: {
         // Apply search filter
         if (searchQuery) {
             const query = searchQuery.toLowerCase();
-            result = result.filter(
+            result = result?.filter(
                 (item) =>
-                    item.nama.toLowerCase().includes(query) ||
-                    item.catatan.toLowerCase().includes(query) ||
-                    item.status.toLowerCase().includes(query)
+                    item?.nama?.toLowerCase().includes(query) ||
+                    item?.catatan?.toLowerCase().includes(query) ||
+                    item?.status?.toLowerCase().includes(query)
             );
         }
 

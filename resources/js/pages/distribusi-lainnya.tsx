@@ -13,7 +13,7 @@ export default function DistribusiLainnya(props: {
         <AuthenticatedLayout header="Dashboard">
             <Head title="Dashboard Zakat" />
 
-            <div className="">
+            <div className="pt-6 ">
                 <h1 className="mb-6 text-3xl font-bold">
                     Manajemen Distribusi Zakat Lainnya
                 </h1>

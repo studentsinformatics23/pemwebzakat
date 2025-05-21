@@ -47,7 +47,7 @@ export default function Distribusi(props: {
         <AuthenticatedLayout header="Dashboard">
             <Head title="Dashboard bayar" />
 
-            <main className="mx-auto">
+            <main className="pt-6 mx-auto ">
                 <ZakatDistributionManagement
                     distribusiZakat={props.distribusiZakat}
                 />
