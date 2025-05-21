@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BayarZakatController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DistribusiZakatController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WargaController;
 use GuzzleHttp\Psr7\Response;
@@ -29,10 +30,17 @@ Route::middleware(['auth'])->group(function () {
     Route::delete("/muzakki/{id}", [WargaController::class, "destroy"])->name('penduduk.destroy');
     //Muzakki route end
 
-    // Bayar zakar start
+    // Bayar zakat start
     Route::get("/bayar", [BayarZakatController::class, "index"])->name("bayar");
     Route::patch("/bayar-zakat/{id}", [BayarZakatController::class, "update"])->name('bayar.update');
-    // Bayar zakar end
+    // Bayar zakat end
+
+    // Distribusi zakat start
+    Route::get("/distribusi", [DistribusiZakatController::class, "index"])->name("distribusi");
+    Route::get("/distribusi-zakat/{id}", [DistribusiZakatController::class, "distribusi"])->name("distribusi.zakat");
+    Route::get("/mustahik", [DistribusiZakatController::class, "mustahik"])->name("mustahik");
+    Route::patch("/distribusi/{id}", [DistribusiZakatController::class, "update"])->name('distribusi.update');
+    // Distribusi zakat end
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

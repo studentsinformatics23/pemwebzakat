@@ -13,4 +13,9 @@ class Kategori extends Model
     {
         return $this->hasMany(Warga::class, 'kategori_id');
     }    //
+
+    public function distribusiZakats()
+    {
+        return $this->hasMany(DistribusiZakat::class);
+    }
 }

@@ -23,6 +23,7 @@ class KategoriSeeder extends Seeder
             ['name' => 'Gharim', 'desc' => 'Orang yang memiliki hutang untuk kebutuhan hidup yang halal dan tidak mampu membayarnya.'],
             ['name' => 'Fisabilillah', 'desc' => 'Orang yang berjuang di jalan Allah, termasuk kegiatan dakwah, pendidikan, dan jihad.'],
             ['name' => 'Ibnu Sabil', 'desc' => 'Musafir yang kehabisan biaya dalam perjalanan.'],
+            ['name' => 'Mampu', 'desc' => 'Warga yang mampu bayar zakat tapi tetap mendapatkan jatah zakat.'],
         ];
 
 

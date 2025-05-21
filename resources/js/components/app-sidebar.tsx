@@ -5,6 +5,7 @@ import {
     Coins,
     Command,
     Frame,
+    GiftIcon,
     HandCoinsIcon,
     Home,
     LifeBuoy,
@@ -59,9 +60,14 @@ const data = {
             icon: HandCoinsIcon,
         },
         {
-            title: "Pembagian Distribusi Zakat",
-            url: "/bayar",
+            title: "Distribusi Zakat Warga",
+            url: "/distribusi",
             icon: SendToBack,
+        },
+        {
+            title: "Distribusi Zakat lainnya",
+            url: "/distribusi-lainnya",
+            icon: GiftIcon,
         },
     ],
     navSecondary: [

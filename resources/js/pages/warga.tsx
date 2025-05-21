@@ -141,6 +141,9 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
     const [itemsPerPage, setItemsPerPage] = useState(5);
 
     const [infoBayarZakar, setInfoBayarZakat] = useState<any | null>();
+    const [infoDistribusiZakat, setInfoDistribusiZakat] = useState<
+        any | null
+    >();
 
     // create warga
     const [selectedKategoriForCreate, setSelectedKategoriForCreate] =
@@ -192,7 +195,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
 
     // View citizen details
     const handleViewDetails = async (citizen: Warga) => {
-        await getBayarZakarByNomerKK(citizen.keluarga_id);
+        await getBayarZakarByNomerKK(citizen.keluarga_id, citizen.id);
         setSelectedCitizen(citizen);
         setIsDetailsOpen(true);
     };
@@ -387,10 +390,46 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
     };
 
     // get data bayar zakat
-    const getBayarZakarByNomerKK = async (nomerKK: string) => {
+    const getBayarZakarByNomerKK = async (nomerKK: string, id: string) => {
         const response = await fetch(`/warga/${nomerKK}`);
         const data = await response.json();
+
+        const reponseDistribusi = await fetch(`/distribusi-zakat/${id}`);
+        const dataDistribusi = await reponseDistribusi.json();
+
+        console.log(dataDistribusi);
+
         setInfoBayarZakat(data);
+        setInfoDistribusiZakat(dataDistribusi);
+    };
+
+    // Helper function to get badge class based on category
+    const getCategoryBadgeClass = (categoryName: string) => {
+        if (!categoryName) return "text-gray-800 bg-gray-100";
+
+        // The 8 categories of zakat recipients plus "mampu"
+        switch (categoryName.toLowerCase()) {
+            case "fakir":
+                return "text-red-800 bg-red-100";
+            case "miskin":
+                return "text-orange-800 bg-orange-100";
+            case "amil":
+                return "text-yellow-800 bg-yellow-100";
+            case "muallaf":
+                return "text-green-800 bg-green-100";
+            case "gharim":
+                return "text-teal-800 bg-teal-100";
+            case "riqab":
+                return "text-cyan-800 bg-cyan-100";
+            case "fisabilillah":
+                return "text-blue-800 bg-blue-100";
+            case "ibnu sabil":
+                return "text-indigo-800 bg-indigo-100";
+            case "mampu":
+                return "text-purple-800 bg-purple-100";
+            default:
+                return "text-gray-800 bg-gray-100";
+        }
     };
 
     return (
@@ -1104,7 +1143,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
 
                 {/* Citizen Details Sheet */}
                 <Sheet open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
-                    <SheetContent className="sm:max-w-md">
+                    <SheetContent className="max-h-screen overflow-y-auto sm:max-w-md">
                         <SheetHeader>
                             <SheetTitle>Informasi Detail</SheetTitle>
                             <SheetDescription>
@@ -1113,7 +1152,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                         </SheetHeader>
 
                         {selectedCitizen && (
-                            <div className="mt-6 space-y-6">
+                            <div className="pb-8 mt-6 space-y-6">
                                 <div className="space-y-2">
                                     <h3 className="text-lg font-medium">
                                         Informasi Keluarga
@@ -1208,7 +1247,12 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                                         <TableCell>
                                                             <Badge
                                                                 variant="outline"
-                                                                className="text-green-800 bg-green-100"
+                                                                className={
+                                                                    infoBayarZakar.status ===
+                                                                    "terkirim"
+                                                                        ? "text-green-800 bg-green-100"
+                                                                        : "text-red-800 bg-red-100"
+                                                                }
                                                             >
                                                                 {
                                                                     infoBayarZakar.status
@@ -1226,25 +1270,33 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                     )}
                                 </div>
 
-                                {/* Receipt History */}
-                                {/* <div className="space-y-2">
+                                {/* Receipt History - Updated Section */}
+                                <div className="space-y-2">
                                     <h3 className="text-lg font-medium">
                                         Receipt History
                                     </h3>
-                                    {getCitizenReceipts(selectedCitizen.id)
-                                        .length > 0 ? (
+                                    {!infoDistribusiZakat ? (
+                                        <p className="text-sm text-muted-foreground">
+                                            No receipt history available.
+                                        </p>
+                                    ) : (
                                         <div className="border rounded-md">
                                             <Table>
                                                 <TableHeader>
                                                     <TableRow>
                                                         <TableHead>
-                                                            Type
+                                                            Jenis Zakat
                                                         </TableHead>
                                                         <TableHead>
-                                                            Amount
+                                                            Total Penerimaan
+                                                            (Rp.)
                                                         </TableHead>
                                                         <TableHead>
-                                                            Period
+                                                            Total Penerimaan
+                                                            (Kg.)
+                                                        </TableHead>
+                                                        <TableHead>
+                                                            Kategori
                                                         </TableHead>
                                                         <TableHead>
                                                             Status
@@ -1252,52 +1304,69 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                                     </TableRow>
                                                 </TableHeader>
                                                 <TableBody>
-                                                    {getCitizenReceipts(
-                                                        selectedCitizen.id
-                                                    ).map((receipt) => (
-                                                        <TableRow
-                                                            key={receipt.id}
-                                                        >
-                                                            <TableCell>
-                                                                {receipt.type}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                {new Intl.NumberFormat(
-                                                                    "id-ID",
-                                                                    {
-                                                                        style: "currency",
-                                                                        currency:
-                                                                            "IDR",
-                                                                        minimumFractionDigits: 0,
-                                                                    }
-                                                                ).format(
-                                                                    receipt.amount
+                                                    <TableRow>
+                                                        <TableCell>
+                                                            {
+                                                                infoDistribusiZakat?.jenis_bantuan
+                                                            }
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {infoDistribusiZakat?.jumlah_uang
+                                                                ? new Intl.NumberFormat(
+                                                                      "id-ID",
+                                                                      {
+                                                                          style: "currency",
+                                                                          currency:
+                                                                              "IDR",
+                                                                          minimumFractionDigits: 0,
+                                                                      }
+                                                                  ).format(
+                                                                      infoDistribusiZakat.jumlah_uang
+                                                                  )
+                                                                : "-"}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {infoDistribusiZakat?.jumlah_beras
+                                                                ? `${infoDistribusiZakat.jumlah_beras} kg`
+                                                                : "-"}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Badge
+                                                                variant="outline"
+                                                                className={getCategoryBadgeClass(
+                                                                    infoDistribusiZakat
+                                                                        ?.kategori
+                                                                        ?.nama
                                                                 )}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                {receipt.period}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                <Badge
-                                                                    variant="outline"
-                                                                    className="text-blue-800 bg-blue-100"
-                                                                >
-                                                                    {
-                                                                        receipt.status
-                                                                    }
-                                                                </Badge>
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    ))}
+                                                            >
+                                                                {infoDistribusiZakat
+                                                                    ?.kategori
+                                                                    ?.nama ||
+                                                                    "N/A"}
+                                                            </Badge>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Badge
+                                                                variant="outline"
+                                                                className={
+                                                                    infoDistribusiZakat?.status ===
+                                                                    "terkirim"
+                                                                        ? "text-green-800 bg-green-100"
+                                                                        : "text-red-800 bg-red-100"
+                                                                }
+                                                            >
+                                                                {infoDistribusiZakat?.status ===
+                                                                "terkirim"
+                                                                    ? "Terkirim"
+                                                                    : "Belum Terkirim"}
+                                                            </Badge>
+                                                        </TableCell>
+                                                    </TableRow>
                                                 </TableBody>
                                             </Table>
                                         </div>
-                                    ) : (
-                                        <p className="text-sm text-muted-foreground">
-                                            No receipt history available.
-                                        </p>
                                     )}
-                                </div> */}
+                                </div>
                             </div>
                         )}
                     </SheetContent>
