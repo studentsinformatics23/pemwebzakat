@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BayarZakat;
+use App\Models\DistribusiZakat;
 use App\Models\Kategori;
 use App\Models\KategoriBayarZakat;
 use App\Models\Warga;
@@ -36,7 +37,7 @@ class WargaController extends Controller
      */
     public function store(Request $request)
     {
-        Warga::create([
+        $warga = Warga::create([
             "keluarga_id" => $request["keluarga_id"],
             'nama' => $request["nama"],
             'deskripsi' => $request["deskripsi"],
@@ -51,6 +52,10 @@ class WargaController extends Controller
                 "jumlah_tanggungan" => (int) $request["jumlah_tanggungan"],
             ]);
         }
+
+        DistribusiZakat::create([
+            'warga_id' => $warga["id"],
+        ]);
 
         return back()->with('success', 'Data berhasil ditambahkan');
     }
