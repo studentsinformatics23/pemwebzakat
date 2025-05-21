@@ -110,7 +110,9 @@ class WargaController extends Controller
             $bayarZakat->delete();
         }
         $distribusiZakat = DistribusiZakat::where("warga_id", "=", $id)->get()->first();
-        $distribusiZakat->delete();
+        if ($distribusiZakat) {
+            $distribusiZakat->delete();
+        }
         $warga->delete();
 
         return back()->with('success', 'Data berhasil dihapus');
