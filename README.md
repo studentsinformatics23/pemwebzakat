@@ -1,46 +1,53 @@
-# Laravel + shadcn/ui + InertiaJS Starter Template
+# Zakafit
 
-![Laravel + shadcn/ui + InertiaJS Starter Template](https://raw.githubusercontent.com/mahmudz/laravel-shadcn-app-panel/main/public/repository-cover.png)
+Zakafit adalah sebuah sistem pengelolaan zakat yang dirancang untuk membantu pengurus zakat dalam mencatat pemasukan zakat fitra, serta mendistribusikannya kepada para mustahik (penerima zakat), baik warga tetap maupun non-warga. Sistem ini dilengkapi dengan panel admin modern berbasis Laravel, Inertia.js, dan shadcn/ui yang memudahkan manajemen data dan laporan zakat.
 
-This is a template to start building a custom user/admin panel quickly.
-Feel free to customize this template to fit the specific needs of your Laravel application!
+## Teknologi yang Digunakan
 
-## Technologies
+- [Laravel](https://laravel.com/docs/) - Framework backend PHP yang kuat dan fleksibel
+- [shadcn/ui](https://ui.shadcn.com/docs) - Komponen UI modern berbasis Tailwind CSS
+- [InertiaJS](https://inertiajs.com/) - Penghubung antara Laravel dan frontend berbasis JavaScript (tanpa perlu API terpisah)
 
-- [Laravel 11](https://laravel.com/docs/)
-- [shadcn/ui](https://ui.shadcn.com/docs)
-- [InertiaJS](https://inertiajs.com/)
+## Prasyarat
 
-## Prerequisites
+Sebelum memulai, pastikan Anda telah menginstal perangkat berikut:
 
-Before you begin, ensure you have met the following requirements:
+- PHP versi 8.2 atau lebih tinggi
+- Composer (untuk mengelola dependensi PHP)
+- Node.js & npm (untuk dependensi frontend)
+- MySQL atau [database kompatibel lainnya](https://laravel.com/docs/11.x/database#configuration)
 
-- PHP >= 8.2
-- Composer (for package management)
-- Node.js & npm (for frontend dependencies)
-- MySQL or another [compatible database](https://laravel.com/docs/11.x/database#configuration)
+## Instalasi
 
-## Installation
+1. Kloning repositori:  
+   `git clone https://github.com/mahmudz/laravel-shadcn-app-panel.git`
+2. Masuk ke direktori proyek:  
+   `cd [nama-direktori-proyek]`
+3. Install dependensi PHP:  
+   `composer install`
+4. Salin file konfigurasi environment:  
+   `cp .env.example .env`, lalu sesuaikan variabel seperti koneksi database.
+5. Generate application key Laravel:  
+   `php artisan key:generate`
+6. Jalankan migrasi database:  
+   `php artisan migrate`
+7. (Opsional) Jalankan seeder database:  
+   `php artisan db:seed`
+8. Install dependensi frontend:  
+   `npm install && npm run dev` (untuk mode pengembangan)  
+   atau  
+   `npm install && npm run build` (untuk mode produksi)
 
-1. Clone the repository: `git clone https://github.com/mahmudz/laravel-shadcn-app-panel.git`
-2. Navigate into the project directory: `cd [project directory]`
-3. Install PHP dependencies: `composer install`
-4. Copy `.env.example` to `.env` and configure your environment variables, including database settings and application key.
-5. Generate application key: `php artisan key:generate`
-6. Run database migrations: `php artisan migrate`
-7. Optionally, seed the database: `php artisan db:seed`
-8. Install frontend dependencies: `npm install && npm run dev` (for development) or `npm install && npm run build` (for production)
+## Penggunaan
 
-## Usage
+Untuk memulai server pengembangan Laravel, jalankan perintah berikut:
 
-To start the development server, run:
-
-```
+```json
 php artisan serve
 ```
 
-Access the application in your browser at `http://localhost:8000` by default.
-
-## Contact
-
-If you have any questions, feedback, or support requests, you can reach me here [mahmudbappy.pri@gmail.com](https://github.com/mahmudz/laravel-shadcn-app-panel.git)
+Dan jalankan node servernya juga
+```json
+npm run dev
+```
+Akses aplikasi melalui browser di `http://localhost:8000` (secara default).
