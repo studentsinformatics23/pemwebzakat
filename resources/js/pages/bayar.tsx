@@ -1,21 +1,17 @@
+import ZakatDashboard from "@/components/zakat-dashboard";
 import AuthenticatedLayout from "@/layouts/authenticated-layout";
+import { ZakatRecord } from "@/lib/types";
 import { Head } from "@inertiajs/react";
 
-export default function Bayar() {
+export default function Bayar(props: { bayarZakat: ZakatRecord[] }) {
+
     return (
-        <AuthenticatedLayout
-            header="Dashboard"
-        >
+        <AuthenticatedLayout header="Dashboard">
             <Head title="Dashboard bayar" />
 
-            <div className="flex flex-1 flex-col gap-4 h-full">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="aspect-video rounded-xl bg-muted/50" />
-                    <div className="aspect-video rounded-xl bg-muted/50" />
-                    <div className="aspect-video rounded-xl bg-muted/50" />
-                </div>
-                <div className="flex-1 rounded-xl bg-muted/50 h-full" />
-            </div>
+            <main className="max-w-full min-h-screen pt-6 ">
+                <ZakatDashboard bayarZakat={props.bayarZakat} />
+            </main>
         </AuthenticatedLayout>
     );
 }
