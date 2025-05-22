@@ -59,7 +59,7 @@ class DashboardController extends Controller
             }
         }
 
-        $wargaWajib = Warga::where('kategori_id', 1)->get();
+        $wargaWajib = Warga::get();
 
         $sudahBayarKeluarga = BayarZakat::where('status', 'lunas')->pluck("nomor_KK")->toArray();
         $sudahBayar = 0;

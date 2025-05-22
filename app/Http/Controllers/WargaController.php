@@ -45,13 +45,11 @@ class WargaController extends Controller
             'jumlah_tanggungan' => (int) $request["jumlah_tanggungan"]
         ]);
 
-        if ($request["kategori_id"] == "1") {
-            BayarZakat::create([
-                "nama_KK" => $request["nama"],
-                "nomor_KK" => $request["keluarga_id"],
-                "jumlah_tanggungan" => (int) $request["jumlah_tanggungan"],
-            ]);
-        }
+        BayarZakat::create([
+            "nama_KK" => $request["nama"],
+            "nomor_KK" => $request["keluarga_id"],
+            "jumlah_tanggungan" => (int) $request["jumlah_tanggungan"],
+        ]);
 
         DistribusiZakat::create([
             'warga_id' => $warga["id"],
