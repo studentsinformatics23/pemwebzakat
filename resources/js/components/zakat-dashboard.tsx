@@ -35,9 +35,9 @@ export default function ZakatDashboard(props: { bayarZakat: ZakatRecord[] }) {
             const query = searchQuery.toLowerCase();
             result = result.filter(
                 (item) =>
-                    item.nama_KK.toLowerCase().includes(query) ||
-                    item.nomor_KK.toLowerCase().includes(query) ||
-                    item.jenis_bayar.toLowerCase().includes(query)
+                    item.nama_KK?.toLowerCase()?.includes(query) ||
+                    item.nomor_KK?.toLowerCase()?.includes(query) ||
+                    item.jenis_bayar?.toLowerCase()?.includes(query)
             );
         }
 

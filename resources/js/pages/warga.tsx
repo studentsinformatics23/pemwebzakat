@@ -1265,7 +1265,7 @@ export default function Warga(props: { warga: Warga[]; kategori: Kategori[] }) {
                                         </div>
                                     ) : (
                                         <p className="text-sm text-muted-foreground">
-                                            Tidak wajib bayar pajak.
+                                            Tidak wajib bayar zakat.
                                         </p>
                                     )}
                                 </div>
